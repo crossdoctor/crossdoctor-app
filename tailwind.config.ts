@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        'text-span': '#16958A',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

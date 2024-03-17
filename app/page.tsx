@@ -1,4 +1,4 @@
-import LoginSvg from "@/Icons/LoginSvg"
+import LoginSvg from "@/components/ui/Icons/LoginSvg"
 import { SubmitButton } from "@/components/ui/submit-button"
 import { createClient } from "@/server/supabase/server"
 import { headers } from "next/headers"

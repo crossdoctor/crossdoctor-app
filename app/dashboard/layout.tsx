@@ -1,3 +1,4 @@
+import { SiteHeader } from "@/components/ui/SiteHeader"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
@@ -15,7 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <main>
-      <div className={inter.className}>{children}</div>
+      <SiteHeader />
+      <div>{children}</div>
     </main>
   )
 }

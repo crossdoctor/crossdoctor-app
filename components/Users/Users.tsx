@@ -1,18 +1,32 @@
+
 import { getClinics } from "@/server/routes/clinics/getClinics"
 import { getHospitals } from "@/server/routes/hospitals/getHospitals"
 import { getMedicalExams } from "@/server/routes/medical-exams/getMedicalExams"
 import { getOfferContracts } from "@/server/routes/offer-contracts/getOfferContracts"
 import { getUsers } from "@/server/routes/users/getUsers"
+import { createClient } from "@/server/supabase/server"
+import { redirect } from "next/navigation"
+import AuthButton from "../ui/Shared/AuthButton"
 
 
 export default async function Users(){
     const users = await getUsers()
     const clinics = await getClinics()
     const hospitals = await getHospitals()
+    console.log("a")
     // const offers = await getExamOffers()
     const contracts = await getOfferContracts()
     const exams = await getMedicalExams()
+    const supabase = createClient();
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+  
+    console.log(user)
+    if (!user) {
+      return redirect("/");
+    }
     
     return (
         <div className="text-black">
@@ -58,8 +72,9 @@ export default async function Users(){
                     <li key={exam.id}>{exam.type}</li>
                 ))}
             </ul>
-                    
 
+            {/* <Button onClick={handleSignOut}>Sign out</Button> */}
+                <AuthButton />
         </div>
     )
 }

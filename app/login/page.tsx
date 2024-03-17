@@ -2,7 +2,7 @@ import { createClient } from "@/server/supabase/server";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { SubmitButton } from "./submit-button";
+import { SubmitButton } from "../../components/ui/submit-button";
 
 export default function Login({
   searchParams,
@@ -22,7 +22,7 @@ export default function Login({
     });
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      return redirect("/?message=Could not authenticate user");
     }
 
     return redirect("/dashboard");
@@ -45,10 +45,10 @@ export default function Login({
     });
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      return redirect("/?message=Could not authenticate user");
     }
 
-    return redirect("/login?message=Check email to continue sign in process");
+    return redirect("/?message=Check email to continue sign in process");
   };
 
   return (

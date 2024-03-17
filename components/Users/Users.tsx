@@ -13,7 +13,6 @@ export default async function Users(){
     const users = await getUsers()
     const clinics = await getClinics()
     const hospitals = await getHospitals()
-    console.log("a")
     // const offers = await getExamOffers()
     const contracts = await getOfferContracts()
     const exams = await getMedicalExams()

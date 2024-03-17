@@ -1,28 +1,27 @@
-
-import { createClient } from "@/server/supabase/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { createClient } from "@/server/supabase/server"
+import Link from "next/link"
+import { redirect } from "next/navigation"
 
 export default async function AuthButton() {
-  const supabase = createClient();
+  const supabase = createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getUser()
 
   const signOut = async () => {
-    "use server";
+    "use server"
 
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    return redirect("/");
-  };
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    return redirect("/")
+  }
 
   return user ? (
     <div className="flex items-center gap-4">
       Hey, {user.email}!
       <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
+        <button className="bg-btn-background hover:bg-btn-background-hover rounded-md px-4 py-2 no-underline">
           Logout
         </button>
       </form>
@@ -30,9 +29,9 @@ export default async function AuthButton() {
   ) : (
     <Link
       href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
+      className="bg-btn-background hover:bg-btn-background-hover flex rounded-md px-3 py-2 no-underline"
     >
       Login
     </Link>
-  );
+  )
 }

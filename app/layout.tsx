@@ -7,6 +7,9 @@ import { TailwindIndicator } from "@/components/ui/utils/tailwind-indicators"
 
 import "../styles/globals.css"
 
+import { fontSans } from "@/lib/fonts"
+import { cn } from "@/lib/utils"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -37,7 +40,12 @@ export default async function RootLayout({
 }>) {
   return (
     <html>
-      <body className={inter.className}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="white" enableSystem>
           {children}
           <TailwindIndicator />

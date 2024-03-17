@@ -1,79 +1,77 @@
-
+import { redirect } from "next/navigation"
 import { getClinics } from "@/server/routes/clinics/getClinics"
 import { getHospitals } from "@/server/routes/hospitals/getHospitals"
 import { getMedicalExams } from "@/server/routes/medical-exams/getMedicalExams"
 import { getOfferContracts } from "@/server/routes/offer-contracts/getOfferContracts"
 import { getUsers } from "@/server/routes/users/getUsers"
 import { createClient } from "@/server/supabase/server"
-import { redirect } from "next/navigation"
-import AuthButton from "../ui/Shared/AuthButton"
 
+import AuthButton from "../ui/shared/authButton"
 
-export default async function Users(){
-    const users = await getUsers()
-    const clinics = await getClinics()
-    const hospitals = await getHospitals()
-    // const offers = await getExamOffers()
-    const contracts = await getOfferContracts()
-    const exams = await getMedicalExams()
-    const supabase = createClient();
+export default async function Users() {
+  const users = await getUsers()
+  const clinics = await getClinics()
+  const hospitals = await getHospitals()
+  // const offers = await getExamOffers()
+  const contracts = await getOfferContracts()
+  const exams = await getMedicalExams()
+  const supabase = createClient()
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-  
-    console.log(user)
-    if (!user) {
-      return redirect("/");
-    }
-    
-    return (
-        <div className="text-black">
-            <h1 className="font-bold">Users</h1>
-            <ul>
-                {users.map(user => (
-                    <li key={user.id}>{user.email}</li>
-                    
-                ))}
-            </ul>
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-            <h1 className="font-bold">Clinics</h1>
-            <ul>
-                {clinics.map(clinic => (
-                    <li key={clinic.id}>{clinic.name}</li>
-                ))}
-            </ul>
+  console.log(user)
+  if (!user) {
+    return redirect("/")
+  }
 
-            <h1 className="font-bold">Hospitals</h1>
-            <ul>
-                {hospitals.map(hospital => (
-                    <li key={hospital.id}>{hospital.name}</li>
-                ))}
-            </ul>
+  return (
+    <div className="text-black">
+      <h1 className="font-bold">Users</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.email}</li>
+        ))}
+      </ul>
 
-            {/* <h1 className="font-bold">Exam Offers</h1>
+      <h1 className="font-bold">Clinics</h1>
+      <ul>
+        {clinics.map((clinic) => (
+          <li key={clinic.id}>{clinic.name}</li>
+        ))}
+      </ul>
+
+      <h1 className="font-bold">Hospitals</h1>
+      <ul>
+        {hospitals.map((hospital) => (
+          <li key={hospital.id}>{hospital.name}</li>
+        ))}
+      </ul>
+
+      {/* <h1 className="font-bold">Exam Offers</h1>
             <ul>
                 {offers.map(offer => (
                     <li key={offer.id}>{offer.id}</li>
                 ))}
             </ul> */}
 
-            <h1 className="font-bold">Contracts</h1>
-            <ul>
-                {contracts.map(contract => (
-                    <li key={contract.id}>{contract.hash}</li>
-                ))}
-            </ul>
+      <h1 className="font-bold">Contracts</h1>
+      <ul>
+        {contracts.map((contract) => (
+          <li key={contract.id}>{contract.hash}</li>
+        ))}
+      </ul>
 
-            <h1 className="font-bold">Exams</h1>
-            <ul>
-                {exams.map(exam => (
-                    <li key={exam.id}>{exam.type}</li>
-                ))}
-            </ul>
+      <h1 className="font-bold">Exams</h1>
+      <ul>
+        {exams.map((exam) => (
+          <li key={exam.id}>{exam.type}</li>
+        ))}
+      </ul>
 
-            {/* <Button onClick={handleSignOut}>Sign out</Button> */}
-                <AuthButton />
-        </div>
-    )
+      {/* <Button onClick={handleSignOut}>Sign out</Button> */}
+      <AuthButton />
+    </div>
+  )
 }

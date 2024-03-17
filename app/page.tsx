@@ -66,7 +66,7 @@ export default async function Home({
           </div>
           <LoginSvg classNames="sm:max-w-3xl " />
         </div>
-        <div className="relative flex h-full w-full flex-col place-content-center items-center  justify-evenly bg-white sm:w-1/2">
+        <div className="relative flex h-full dark:text-black w-full flex-col place-content-center items-center  justify-evenly bg-white sm:w-1/2">
           <div className="z-10 flex h-fit w-full max-w-lg flex-col   px-4 sm:z-auto">
             <LoginSvg classNames="max-w-[240px] sm:max-w-sm  absolute rotate-180 -top-10 sm:top-0  -right-10" />
             <div className="flex w-full flex-col gap-3  text-center ">
@@ -76,7 +76,7 @@ export default async function Home({
               </span>
             </div>
             <div className="flex max-w-xl flex-col justify-center gap-4">
-              <form className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground animate-in">
+              <form className="flex w-full flex-1 dark:text-black flex-col justify-center gap-2 text-foreground animate-in">
                 <label className="text-md" htmlFor="email">
                   Email
                 </label>

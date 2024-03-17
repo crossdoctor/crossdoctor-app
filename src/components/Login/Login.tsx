@@ -1,14 +1,50 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import LoginSvg from "@/Icons/LoginSvg";
-import { useDeviceInfo } from "@/hooks/useDeviceInfo";
+import { createClient } from "@/server/supabase/client";
+import { Provider, Session } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
-export default function Login() {
-  const { isMobile } = useDeviceInfo();
-  return (
+export default async function Login({ session }: { session: Session | null }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
+  const supabase = createClient()
+
+  const handleSignUp = async () => {
+    await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${location.origin}/auth/callback`,
+      },
+    })
+    router.refresh()
+  }
+
+  const handleSignIn = async () => {
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    router.refresh()
+  }
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.refresh()
+  }
+  const signInWithOauth = (provider: Provider) => {
+    void createClient().auth.signInWithOAuth({
+        provider: provider,
+    });
+};
+return session ? (
+  <Button onClick={handleSignOut}>Sign out</Button>
+) : (
     <div className="w-full h-screen flex-col overflow-clip flex sm:flex-row items-start">
       <div className="relative hidden sm:flex bg-black w-full !my-0 !p-0 sm:w-1/2 h-fit sm:h-full  flex-col justify-between items-center place-content-center">
         <div className="pt-8 pb-10 sm:py-0 sm:mt-64 px-4 flex flex-col">
@@ -32,17 +68,24 @@ export default function Login() {
             </span>
           </div>
           <div className="max-w-xl flex flex-col gap-4 justify-center">
+            
             <Input
               type="email"
               className="rounded-full bg-gray-300"
               placeholder="Email"
+              name="email" onChange={(e) => setEmail(e.target.value)} value={email}
             />
             <Input
               type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               className="rounded-full bg-gray-300"
               placeholder="Password"
             />
-            <Button className="rounded-full ">Login</Button>
+            <Button onClick={handleSignUp}>Sign up</Button>
+            <Button onClick={handleSignIn}>Sign in</Button>
+            <Button onClick={() => signInWithOauth("google")} className="rounded-full ">Google</Button>
             <a href="#" className="flex justify-center hover:underline">
               Esqueceu sua senha?
             </a>

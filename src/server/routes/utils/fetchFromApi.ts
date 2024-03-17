@@ -17,7 +17,7 @@ export async function fetchFromAPI<T>(pathRoute: PathRoutesEnum): Promise<T> {
         "Content-Type": "application/json",
         "x-access-token": accessToken,
       }),
-      next: { revalidate: 30 },
+      // next: { revalidate: 30 },
     });
 
     if (!response.ok) {
@@ -25,7 +25,6 @@ export async function fetchFromAPI<T>(pathRoute: PathRoutesEnum): Promise<T> {
     }
 
     const data: T = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);

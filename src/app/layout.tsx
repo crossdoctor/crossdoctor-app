@@ -9,14 +9,22 @@ export const metadata: Metadata = {
   description: "Making our life easier!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const supabase = createServerComponentClient<Database>({ cookies });
+
+	// const {
+	// 	data: { session }
+	// } = await supabase.auth.getSession();
+
   return (
     <html>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+      {/* <Login session={session} /> */}
+        {children}</body>
     </html>
   );
 }

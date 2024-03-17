@@ -1,8 +1,8 @@
-import { getClinics } from "@/routes/clinics/getClinics"
-import { getHospitals } from "@/routes/hospitals/getHospitals"
-import { getMedicalExams } from "@/routes/medical-exams/getMedicalExams"
-import { getOfferContracts } from "@/routes/offer-contracts/getOfferContracts"
-import { getUsers } from "@/routes/users/getUsers"
+import { getClinics } from "@/server/routes/clinics/getClinics"
+import { getHospitals } from "@/server/routes/hospitals/getHospitals"
+import { getMedicalExams } from "@/server/routes/medical-exams/getMedicalExams"
+import { getOfferContracts } from "@/server/routes/offer-contracts/getOfferContracts"
+import { getUsers } from "@/server/routes/users/getUsers"
 
 
 export default async function Users(){

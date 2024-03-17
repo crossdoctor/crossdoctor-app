@@ -1,9 +1,11 @@
-import { TailwindIndicator } from "@/components/ui/utils/tailwind-indicators"
-import { siteConfig } from "@/config/site"
-import type { Metadata } from "next"
-import { ThemeProvider } from "next-themes"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
-import "./globals.css"
+import { ThemeProvider } from "next-themes"
+
+import { siteConfig } from "@/config/site"
+import { TailwindIndicator } from "@/components/ui/utils/tailwind-indicators"
+
+import "../styles/globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -13,15 +15,19 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 }
 
 export default async function RootLayout({

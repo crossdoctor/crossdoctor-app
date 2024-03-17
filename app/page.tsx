@@ -1,8 +1,9 @@
-import LoginSvg from "@/components/ui/Icons/LoginSvg"
-import { SubmitButton } from "@/components/ui/submit-button"
-import { createClient } from "@/server/supabase/server"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { createClient } from "@/server/supabase/server"
+
+import LoginSvg from "@/components/ui/Icons/LoginSvg"
+import { SubmitButton } from "@/components/ui/submit-button"
 
 export default async function Home({
   searchParams,

@@ -1,3 +1,4 @@
+import { env } from "@/env/server";
 import { ApplicationError } from "../errorsEnum";
 import { PathRoutesEnum } from "../pathRoutes";
 
@@ -9,8 +10,8 @@ import { PathRoutesEnum } from "../pathRoutes";
  */
 export async function fetchFromAPI<T>(pathRoute: PathRoutesEnum): Promise<T> {
   try {
-    const accessToken = process.env.ACCESS_TOKEN || "";
-    const response = await fetch(`${process.env.API_URL}${pathRoute}`, {
+    const accessToken = env.ACCESS_TOKEN || "";
+    const response = await fetch(`${env.API_URL}${pathRoute}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",

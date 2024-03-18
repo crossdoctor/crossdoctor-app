@@ -11,13 +11,12 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@/server/supabase/client"
 import { User } from "@supabase/supabase-js"
 
-import { getFromStorage } from "@/lib/utils"
-
 // Define o tipo do contexto
 interface UserAuthProviderType {
   isLoggedIn: boolean
   isLoading: boolean
   userData?: User
+  isAuthorized: boolean
 }
 
 // Cria o contexto com um valor default
@@ -32,16 +31,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState<User | undefined>(undefined)
   const { auth } = createClient()
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const userFound = getFromStorage("userFound")
-
   useEffect(() => {
-    console.log("Buscando informações do usuário...")
-
-    if (userFound) {
-      console.log(userFound, "userFound")
-      setIsAuthorized(true)
-    }
-  }, [userFound])
+    fetch("/api/user")
+      .then((res) => res.json())
+      .then((data) => {
+        setIsAuthorized(!!data)
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar informações do usuário:", error)
+      })
+  }, [])
 
   const router = useRouter()
 
@@ -50,13 +49,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true)
       const session = await auth.getSession()
 
-      console.log(session, "session")
       return session
     }
 
     getSession().then((session) => {
       const hasSession = !!session.data.session
-      console.log(hasSession, "hasSession")
       setUserData(session.data.session?.user)
       setIsLoggedIn(hasSession)
       setIsLoading(false)
@@ -69,7 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [auth, router])
 
   return (
-    <UserAuthProvider.Provider value={{ isLoggedIn, isLoading, userData }}>
+    <UserAuthProvider.Provider
+      value={{ isLoggedIn, isLoading, userData, isAuthorized }}
+    >
       {!isLoading && children}
     </UserAuthProvider.Provider>
   )

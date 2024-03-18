@@ -16,6 +16,8 @@ export default async function Users() {
 
   return (
     <div className="">
+      <h1 className="font-bold">Dashboard</h1>
+
       <h1 className="font-bold">User</h1>
       {user && <p>{JSON.stringify(user, null, 2)}</p>}
       <h1 className="font-bold">Users</h1>

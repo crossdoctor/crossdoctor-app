@@ -33,11 +33,17 @@
 // }
 
 import { NextResponse } from "next/server"
+import { PathRoutesEnum } from "@/server/routes/pathRoutes"
+import { fetchFromAPI } from "@/server/routes/utils/fetchFromApi"
 
 // Handles GET requests to /api
 export async function GET(request: Request) {
-  // ...
-  return NextResponse.json({ message: "Hello World" })
+  const userFound = await fetchFromAPI({
+    pathRoute: PathRoutesEnum.USERS,
+    methods: "PATCH",
+    routeProps: "3448f442-4ea2-4388-b52c-d1f4d7c32a33",
+  })
+  return NextResponse.json({ userFound })
 }
 
 // Handles POST requests to /api

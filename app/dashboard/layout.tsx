@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/contexts/userAuthProvider"
 
 import { Sidebar } from "@/components/ui/sidebar"
-import { SiteHeader } from "@/components/ui/siteHeader"
+import { SiteHeader } from "@/components/ui/SiteHeader"
 
 export default async function RootLayout({
   children,

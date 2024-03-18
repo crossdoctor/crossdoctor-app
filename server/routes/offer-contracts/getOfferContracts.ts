@@ -1,9 +1,10 @@
-import * as yup from "yup";
-import { ApplicationError } from "../errorsEnum";
-import { PathRoutesEnum } from "../pathRoutes";
-import { OfferContracts } from "../types";
-import { fetchFromAPI } from "../utils/fetchFromApi";
-import { offerContractsSchema } from "../validationSchemas";
+import * as yup from "yup"
+
+import { ApplicationError } from "../errorsEnum"
+import { PathRoutesEnum } from "../pathRoutes"
+import { OfferContracts } from "../types"
+import { fetchFromAPI } from "../utils/fetchFromApi"
+import { offerContractsSchema } from "../validationSchemas"
 
 /**
  * Retrieves a list of offer contracts from the API and performs validation on each contract.
@@ -13,9 +14,9 @@ import { offerContractsSchema } from "../validationSchemas";
  */
 export async function getOfferContracts(): Promise<OfferContracts[]> {
   try {
-    const offerContracts = await fetchFromAPI<OfferContracts[]>(
-      PathRoutesEnum.OFFER_CONTRACTS
-    );
+    const offerContracts = await fetchFromAPI<OfferContracts[]>({
+      pathRoute: PathRoutesEnum.OFFER_CONTRACTS,
+    })
     const validatedofferContracts = await Promise.all(
       offerContracts.map((offerContracts) =>
         offerContractsSchema.validate(offerContracts, {
@@ -23,15 +24,15 @@ export async function getOfferContracts(): Promise<OfferContracts[]> {
           abortEarly: false,
         })
       )
-    );
+    )
 
-    return validatedofferContracts;
+    return validatedofferContracts
   } catch (error) {
     if (error instanceof yup.ValidationError) {
-      console.error("Validation error:", error.errors);
-      throw new Error(ApplicationError.INVALID_OFFER_CONTRACT_DATA);
+      console.error("Validation error:", error.errors)
+      throw new Error(ApplicationError.INVALID_OFFER_CONTRACT_DATA)
     }
-    console.error(error);
-    throw new Error(ApplicationError.OFFER_CONTRACT_NOT_FOUND);
+    console.error(error)
+    throw new Error(ApplicationError.OFFER_CONTRACT_NOT_FOUND)
   }
 }

@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 
 import { Icons } from "./Icons/icons"
-import { MainNav } from "./mainNav"
-import AuthButton from "./shared/authButton"
+import { MainNav } from "./MainNav"
+import AuthButton from "./Shared/AuthButton"
 import { ThemeToggle } from "./ThemeToggle"
 
 export function SiteHeader() {

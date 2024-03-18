@@ -1,9 +1,10 @@
-import * as yup from "yup";
-import { ApplicationError } from "../errorsEnum";
-import { PathRoutesEnum } from "../pathRoutes";
-import { Hospital } from "../types";
-import { fetchFromAPI } from "../utils/fetchFromApi";
-import { hospitalSchema } from "../validationSchemas";
+import * as yup from "yup"
+
+import { ApplicationError } from "../errorsEnum"
+import { PathRoutesEnum } from "../pathRoutes"
+import { Hospital } from "../types"
+import { fetchFromAPI } from "../utils/fetchFromApi"
+import { hospitalSchema } from "../validationSchemas"
 
 /**
  * Retrieves a list of hospitals from the API, validates the data using a schema, and returns the validated hospitals.
@@ -12,7 +13,9 @@ import { hospitalSchema } from "../validationSchemas";
  */
 export async function getHospitals(): Promise<Hospital[]> {
   try {
-    const hospitals = await fetchFromAPI<Hospital[]>(PathRoutesEnum.HOSPITALS);
+    const hospitals = await fetchFromAPI<Hospital[]>({
+      pathRoute: PathRoutesEnum.HOSPITALS,
+    })
     const validatedHospitals = await Promise.all(
       hospitals.map((hospital) =>
         hospitalSchema.validate(hospital, {
@@ -20,13 +23,13 @@ export async function getHospitals(): Promise<Hospital[]> {
           abortEarly: false,
         })
       )
-    );
-    return validatedHospitals;
+    )
+    return validatedHospitals
   } catch (error) {
     if (error instanceof yup.ValidationError) {
-      console.error("Validation error:", error.errors);
-      throw new Error(ApplicationError.INVALID_HOSPITAL_DATA);
+      console.error("Validation error:", error.errors)
+      throw new Error(ApplicationError.INVALID_HOSPITAL_DATA)
     }
-    throw new Error(ApplicationError.HOSPITAL_NOT_FOUND);
+    throw new Error(ApplicationError.HOSPITAL_NOT_FOUND)
   }
 }

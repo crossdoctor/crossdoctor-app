@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@/server/supabase/client"
 import { User } from "@supabase/supabase-js"
 
+import { getFromStorage } from "@/lib/utils"
+
 // Define o tipo do contexto
 interface UserAuthProviderType {
   isLoggedIn: boolean
@@ -29,6 +31,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [userData, setUserData] = useState<User | undefined>(undefined)
   const { auth } = createClient()
+  const [isAuthorized, setIsAuthorized] = useState(false)
+  const userFound = getFromStorage("userFound")
+
+  useEffect(() => {
+    console.log("Buscando informações do usuário...")
+
+    if (userFound) {
+      console.log(userFound, "userFound")
+      setIsAuthorized(true)
+    }
+  }, [userFound])
 
   const router = useRouter()
 

@@ -38,12 +38,13 @@ export const playlists = [
 export const enum SideBarMenus {
   HOME = "dashboard",
   CLINICS = "clinics",
+  HOSPITALS = "hospitals",
   MEDICS = "medics",
-  CONTRACT_DEMANDS = "contracts-demands",
-  EXAM_OFFERS = "exam-offers",
-  OFFER_CONTRACTS = "offer-contracts",
-  MEDICAL_EXAMS = "medical-exams",
-  MATCH_OFFERS = "match-offers",
+  CONTRACT_DEMANDS = "contracts/contracts-demands",
+  EXAMS = "exams",
+  OFFER_CONTRACTS = "contracts/offer-contracts",
+  MEDICAL_EXAMS = "exams/medical-exams",
+  MATCH_OFFERS = "match/match-offers",
 }
 type SidebarItem = {
   text: string
@@ -60,11 +61,12 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 const sideHeader = [
   SideBarMenus.HOME,
   SideBarMenus.CLINICS,
+  SideBarMenus.HOSPITALS,
   SideBarMenus.MEDICS,
 ]
 const contracts = [SideBarMenus.CONTRACT_DEMANDS, SideBarMenus.OFFER_CONTRACTS]
 const match = [SideBarMenus.MATCH_OFFERS]
-const sideBotttom = [SideBarMenus.EXAM_OFFERS]
+const sideBotttom = [SideBarMenus.EXAMS]
 
 export function Sidebar({ className }: SidebarProps) {
   const selectedTab = usePathname().split("/").slice(2)
@@ -94,10 +96,10 @@ export function Sidebar({ className }: SidebarProps) {
     },
     {
       text: "Hospitais",
-      linkUrl: SideBarMenus.CLINICS,
-      type: SideBarMenus.CLINICS,
+      linkUrl: SideBarMenus.HOSPITALS,
+      type: SideBarMenus.HOSPITALS,
       icon: <Hospital size={16} className="text-primary" />,
-      isSelected: selectedTab.includes(SideBarMenus.CLINICS),
+      isSelected: selectedTab.includes(SideBarMenus.HOSPITALS),
     },
     {
       text: "Ofertas",
@@ -122,10 +124,10 @@ export function Sidebar({ className }: SidebarProps) {
     },
     {
       text: "Exames",
-      linkUrl: SideBarMenus.EXAM_OFFERS,
-      type: SideBarMenus.EXAM_OFFERS,
+      linkUrl: SideBarMenus.EXAMS,
+      type: SideBarMenus.EXAMS,
       icon: <ShieldPlus size={16} className="text-primary" />,
-      isSelected: selectedTab.includes(SideBarMenus.EXAM_OFFERS),
+      isSelected: selectedTab.includes(SideBarMenus.EXAMS),
     },
   ]
   return (
@@ -168,14 +170,22 @@ export function Sidebar({ className }: SidebarProps) {
             {sidebarItems
               .filter((item) => contracts.includes(item.type))
               .map((item) => (
-                <Button
+                <Link
                   key={item.text}
-                  variant={item.isSelected ? "secondary" : "ghost"}
-                  className="w-full gap-2 justify-start"
+                  href={
+                    item.type === "dashboard"
+                      ? "/" + item.linkUrl
+                      : "/dashboard/" + item.linkUrl
+                  }
                 >
-                  {item.icon}
-                  {item.text}
-                </Button>
+                  <Button
+                    variant={item.isSelected ? "secondary" : "ghost"}
+                    className="w-full gap-2 justify-start"
+                  >
+                    {item.icon}
+                    {item.text}
+                  </Button>
+                </Link>
               ))}
           </div>
         </div>
@@ -188,14 +198,22 @@ export function Sidebar({ className }: SidebarProps) {
             {sidebarItems
               .filter((item) => match.includes(item.type))
               .map((item) => (
-                <Button
+                <Link
                   key={item.text}
-                  variant={item.isSelected ? "secondary" : "ghost"}
-                  className="w-full gap-2 justify-start"
+                  href={
+                    item.type === "dashboard"
+                      ? "/" + item.linkUrl
+                      : "/dashboard/" + item.linkUrl
+                  }
                 >
-                  {item.icon}
-                  {item.text}
-                </Button>
+                  <Button
+                    variant={item.isSelected ? "secondary" : "ghost"}
+                    className="w-full gap-2 justify-start"
+                  >
+                    {item.icon}
+                    {item.text}
+                  </Button>
+                </Link>
               ))}
           </div>
         </div>
@@ -208,14 +226,22 @@ export function Sidebar({ className }: SidebarProps) {
             {sidebarItems
               .filter((item) => sideBotttom.includes(item.type))
               .map((item) => (
-                <Button
+                <Link
                   key={item.text}
-                  variant={item.isSelected ? "secondary" : "ghost"}
-                  className="w-full gap-2 justify-start"
+                  href={
+                    item.type === "dashboard"
+                      ? "/" + item.linkUrl
+                      : "/dashboard/" + item.linkUrl
+                  }
                 >
-                  {item.icon}
-                  {item.text}
-                </Button>
+                  <Button
+                    variant={item.isSelected ? "secondary" : "ghost"}
+                    className="w-full gap-2 justify-start"
+                  >
+                    {item.icon}
+                    {item.text}
+                  </Button>
+                </Link>
               ))}
           </div>
         </div>

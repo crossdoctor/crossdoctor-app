@@ -9,13 +9,12 @@ export default function Home() {
   const { userData } = useAuth()
   return (
     <main className="relative w-full">
-      <InnerStickyHeader />
+      <InnerStickyHeader title="Dashboard" description="Dashboard" />
       <div className="relative">
         <ScrollArea>
-          {/* <div className="flex space-x-4 px-4 pb-4">
-            <Content />
-          </div> */}
-          <p className="">{userData && JSON.stringify(userData, null, 2)}</p>
+          <div className="flex space-x-4 px-4 pb-4">
+            <p className="">{userData && JSON.stringify(userData, null, 2)}</p>
+          </div>
           <ScrollBar orientation="vertical" />
         </ScrollArea>
       </div>

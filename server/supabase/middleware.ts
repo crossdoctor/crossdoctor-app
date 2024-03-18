@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { createServerClient, type CookieOptions } from "@supabase/ssr"
 
-import { getUserById } from "../routes/users/getUserById"
-
 export const updateSession = async (request: NextRequest) => {
   // This `try/catch` block is only here for the interactive tutorial.
   // Feel free to remove once you have Supabase connected.
@@ -20,9 +18,12 @@ export const updateSession = async (request: NextRequest) => {
       {
         cookies: {
           get(name: string) {
+            console.log(request.cookies, "cookies")
             return request.cookies.get(name)?.value
           },
           set(name: string, value: string, options: CookieOptions) {
+            console.log(request.cookies, "cookies2")
+
             // If the cookie is updated, update the cookies for the request and response
             request.cookies.set({
               name,
@@ -41,6 +42,8 @@ export const updateSession = async (request: NextRequest) => {
             })
           },
           remove(name: string, options: CookieOptions) {
+            console.log(request.cookies, "cookies remove")
+
             // If the cookie is removed, update the cookies for the request and response
             request.cookies.set({
               name,
@@ -61,21 +64,22 @@ export const updateSession = async (request: NextRequest) => {
         },
       }
     )
+    console.log(request.cookies, "cookies4")
 
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     await supabase.auth.getUser()
 
-    const userFound = await getUserById("3448f442-4ea2-4388-b52c-d1f4d7c32a33")
+    // const userFound = await getUserById("3448f442-4ea2-4388-b52c-d1f4d7c32a33")
 
-    if (userFound) {
-      response.cookies.set("user-info", JSON.stringify(userFound), {
-        httpOnly: true,
-      })
-      return response
-    } else {
-      console.log("user not found")
-    }
+    // if (userFound) {
+    //   response.cookies.set("user-info", JSON.stringify(userFound), {
+    //     httpOnly: true,
+    //   })
+    //   return response
+    // } else {
+    //   console.log("user not found")
+    // }
 
     return response
   } catch (e) {

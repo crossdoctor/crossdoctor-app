@@ -7,6 +7,9 @@ import { TailwindIndicator } from "@/components/ui/utils/tailwind-indicators"
 
 import "../styles/globals.css"
 
+import { SelectedTabProvider } from "@/contexts/selectedTabProvider"
+import { Provider } from "jotai"
+
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 
@@ -39,17 +42,25 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html>
+    <html
+      style={{ colorScheme: "dark" }}
+      className={cn(fontSans.variable, "dark")}
+    >
       <body
+        suppressHydrationWarning={true}
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="white" enableSystem>
-          {children}
-          <TailwindIndicator />
-        </ThemeProvider>
+        <Provider>
+          <SelectedTabProvider>
+            <ThemeProvider attribute="class" defaultTheme="white" enableSystem>
+              {children}
+              <TailwindIndicator />
+            </ThemeProvider>
+          </SelectedTabProvider>
+        </Provider>
       </body>
     </html>
   )

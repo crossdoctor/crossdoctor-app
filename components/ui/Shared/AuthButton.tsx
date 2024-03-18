@@ -1,6 +1,7 @@
-import { createClient } from "@/server/supabase/server"
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import { createClient } from "@/server/supabase/server"
+
 import { Button } from "../button"
 
 export default async function AuthButton() {

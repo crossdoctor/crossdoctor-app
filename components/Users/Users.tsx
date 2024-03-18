@@ -1,12 +1,8 @@
-import { redirect } from "next/navigation"
 import { getClinics } from "@/server/routes/clinics/getClinics"
 import { getHospitals } from "@/server/routes/hospitals/getHospitals"
 import { getMedicalExams } from "@/server/routes/medical-exams/getMedicalExams"
 import { getOfferContracts } from "@/server/routes/offer-contracts/getOfferContracts"
 import { getUsers } from "@/server/routes/users/getUsers"
-import { createClient } from "@/server/supabase/server"
-
-import AuthButton from "../ui/shared/authButton"
 
 export default async function Users() {
   const users = await getUsers()
@@ -15,19 +11,9 @@ export default async function Users() {
   // const offers = await getExamOffers()
   const contracts = await getOfferContracts()
   const exams = await getMedicalExams()
-  const supabase = createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  console.log(user)
-  if (!user) {
-    return redirect("/")
-  }
 
   return (
-    <div className="text-black">
+    <div className="">
       <h1 className="font-bold">Users</h1>
       <ul>
         {users.map((user) => (
@@ -71,7 +57,6 @@ export default async function Users() {
       </ul>
 
       {/* <Button onClick={handleSignOut}>Sign out</Button> */}
-      <AuthButton />
     </div>
   )
 }

@@ -18,12 +18,9 @@ export const updateSession = async (request: NextRequest) => {
       {
         cookies: {
           get(name: string) {
-            console.log(request.cookies, "cookies")
             return request.cookies.get(name)?.value
           },
           set(name: string, value: string, options: CookieOptions) {
-            console.log(request.cookies, "cookies2")
-
             // If the cookie is updated, update the cookies for the request and response
             request.cookies.set({
               name,
@@ -42,8 +39,6 @@ export const updateSession = async (request: NextRequest) => {
             })
           },
           remove(name: string, options: CookieOptions) {
-            console.log(request.cookies, "cookies remove")
-
             // If the cookie is removed, update the cookies for the request and response
             request.cookies.set({
               name,
@@ -64,7 +59,6 @@ export const updateSession = async (request: NextRequest) => {
         },
       }
     )
-    console.log(request.cookies, "cookies4")
 
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs

@@ -22,6 +22,7 @@ type FetchFromAPIProps = {
   methods?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
   nextConfig?: NextFetchRequestConfig
   cache?: RequestCache
+  body?: BodyInit | null
 }
 
 export async function fetchFromAPI<T>({
@@ -30,6 +31,7 @@ export async function fetchFromAPI<T>({
   methods = "GET",
   nextConfig,
   cache,
+  body,
 }: FetchFromAPIProps): Promise<T> {
   if (!env.ACCESS_TOKEN) {
     throw new Error("Access token is missing")
@@ -46,6 +48,7 @@ export async function fetchFromAPI<T>({
         "x-access-token": accessToken,
       }),
       cache: cache,
+      body: body ? JSON.stringify({ body }) : undefined,
       next: nextConfig,
     })
 

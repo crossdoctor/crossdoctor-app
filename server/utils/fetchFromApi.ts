@@ -1,5 +1,6 @@
 import { env } from "@/env/server"
-import { Logger } from "winston"
+import axios from "axios"
+import { undefined } from "zod"
 
 import { ApplicationError } from "../errorsEnum"
 import { PathRoutesEnum } from "../pathRoutes"
@@ -18,7 +19,9 @@ import { PathRoutesEnum } from "../pathRoutes"
 
 type FetchFromAPIProps = {
   pathRoute: PathRoutesEnum
-  routeProps?: any
+  params?: {
+    id: string
+  }
   methods?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
   nextConfig?: NextFetchRequestConfig
   cache?: RequestCache
@@ -27,53 +30,37 @@ type FetchFromAPIProps = {
 
 export async function fetchFromAPI<T>({
   pathRoute,
-  routeProps,
+  params,
   methods = "GET",
-  nextConfig,
+  body = null,
   cache,
-  body,
 }: FetchFromAPIProps): Promise<T> {
   if (!env.ACCESS_TOKEN) {
     throw new Error("Access token is missing")
   }
-  const logger = new Logger()
 
+  const url = params
+    ? `${env.API_URL}${pathRoute}/${params.id}`
+    : `${env.API_URL}${pathRoute}`
   try {
-    const accessToken = env.ACCESS_TOKEN
-    const withRouteProps = routeProps ? `${pathRoute}/${routeProps}` : pathRoute
-    const response = await fetch(`${env.API_URL}${withRouteProps}`, {
+    const { data } = await axios(url, {
       method: methods,
-      headers: new Headers({
+      headers: {
         "Content-Type": "application/json",
-        "x-access-token": accessToken,
-      }),
-      cache: cache,
-      body: body ? JSON.stringify({ body }) : undefined,
-      next: nextConfig,
+        "x-access-token": env.ACCESS_TOKEN,
+      },
+
+      data: body ? body : undefined,
+      // Axios does not directly support the 'cache' option like fetch, but you can configure cache behavior on a per-request basis using interceptors or external libraries
     })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`)
-    }
-
-    let data: T
-    try {
-      data = await response.json()
-    } catch (error) {
-      logger.error(error)
-      throw new Error(ApplicationError.ERROR_FETCHING_DATA_FROM_API)
-    }
-
+    console.log(data)
     return data
   } catch (error) {
-    logger.error(error)
-    throw new FetchDataError("Error fetching data from API")
-  }
-}
-
-export class FetchDataError extends Error {
-  constructor(message: string) {
-    super(message)
-    this.name = "FetchDataError"
+    if (axios.isAxiosError(error)) {
+      console.error("Fetch error:", error.message)
+      throw new Error(ApplicationError.ERROR_FETCHING_DATA_FROM_API)
+    } else {
+      throw new Error("An unexpected error occurred")
+    }
   }
 }

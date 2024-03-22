@@ -1,35 +1,36 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { ApplicationError } from "@/server/errorsEnum"
 import { PathRoutesEnum } from "@/server/pathRoutes"
-import { User } from "@/server/types"
+import { MedicalExams } from "@/server/types"
 import { fetchFromAPI } from "@/server/utils/fetchFromApi"
-import { userSchema } from "@/server/validationSchemas"
+import { medicalExamsSchema } from "@/server/validationSchemas"
 import * as yup from "yup"
 
 export const dynamic = "force-dynamic"
-// Handles GET requests to /api
-export async function GET(request: Request) {
-  try {
-    // Fetch users data from API
-    const users = await fetchFromAPI<User[]>({
-      pathRoute: PathRoutesEnum.USERS,
-    })
 
-    // Validate each user data with Yup schema
-    const validatedUsers = await Promise.all(
-      users.map((user) =>
-        userSchema.validate(user, { strict: true, abortEarly: false })
+// Handles GET requests to /api
+export async function GET(req: NextRequest): Promise<NextResponse> {
+  try {
+    const medicalExams = await fetchFromAPI<MedicalExams[]>({
+      pathRoute: PathRoutesEnum.MEDICAL_EXAMS,
+    })
+    const validatedMedicalExams = await Promise.all(
+      medicalExams.map((medicalExams) =>
+        medicalExamsSchema.validate(medicalExams, {
+          strict: true,
+          abortEarly: false,
+        })
       )
     )
 
-    return NextResponse.json(validatedUsers)
+    return NextResponse.json(validatedMedicalExams)
   } catch (error) {
     console.error(error)
 
     // Se o erro for relacionado à validação do Yup
     if (error instanceof yup.ValidationError) {
       console.error("Validation error:", error.errors)
-      throw new Error(ApplicationError.INVALID_USER_DATA) // Assumindo que você tenha este erro definido
+      throw new Error(ApplicationError.INVALID_MEDICAL_EXAM_DATA) // Assumindo que você tenha este erro definido
     }
 
     return NextResponse.json(

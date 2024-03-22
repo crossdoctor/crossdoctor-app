@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Clinic } from "@/server/routes/types"
+import { Clinic } from "@/server/types"
 
 import { Button } from "./ui/button"
 

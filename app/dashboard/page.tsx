@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { useAuth } from "@/contexts/userAuthProvider"
 
 import InnerStickyHeader from "@/components/ui/innerStickyHeader"
@@ -13,7 +14,9 @@ export default function Home() {
       <div className="relative">
         <ScrollArea>
           <div className="flex flex-col space-x-4 px-4 pb-4">
-            <p className="">{userData && JSON.stringify(userData, null, 2)}</p>
+            <Suspense fallback={<div>Loading...</div>}>
+              {userData && JSON.stringify(userData, null, 2)}
+            </Suspense>
             <p className="">Dashboard</p>
             <p className="">
               {" "}

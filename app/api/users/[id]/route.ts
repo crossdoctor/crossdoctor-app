@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { ApplicationError } from "@/server/errorsEnum"
 import { PathRoutesEnum } from "@/server/pathRoutes"
 import { User } from "@/server/types"
@@ -8,19 +8,24 @@ import * as yup from "yup"
 
 export const dynamic = "force-dynamic"
 // Handles GET requests to /api
-export async function GET(request: Request) {
+export async function GET(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     // Fetch users data from API
-    const users = await fetchFromAPI<User[]>({
+    const users = await fetchFromAPI<User>({
       pathRoute: PathRoutesEnum.USERS,
+      params: {
+        id: context.params.id,
+      },
     })
 
     // Validate each user data with Yup schema
-    const validatedUsers = await Promise.all(
-      users.map((user) =>
-        userSchema.validate(user, { strict: true, abortEarly: false })
-      )
-    )
+    const validatedUsers = await userSchema.validate(users, {
+      strict: true,
+      abortEarly: false,
+    })
 
     return NextResponse.json(validatedUsers)
   } catch (error) {

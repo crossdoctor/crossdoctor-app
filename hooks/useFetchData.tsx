@@ -1,40 +1,46 @@
-import { useEffect, useState } from "react"
-import { PathRoutesEnum } from "@/server/routes/pathRoutes"
-import { Clinic, User } from "@/server/routes/types"
+import { PathRoutesEnum } from "@/server/pathRoutes"
+import {
+  Clinic,
+  ExamOffers,
+  Hospital,
+  MedicalExams,
+  OfferContracts,
+  User,
+} from "@/server/types"
+import { useQuery } from "@tanstack/react-query"
 
 type RouteDataMap = {
   [PathRoutesEnum.CLINICS]: Clinic[]
   [PathRoutesEnum.USERS]: User[]
+  [PathRoutesEnum.EXAM_OFFERS]: ExamOffers[]
+  [PathRoutesEnum.MEDICAL_EXAMS]: MedicalExams[]
+  [PathRoutesEnum.OFFER_CONTRACTS]: OfferContracts[]
+  [PathRoutesEnum.HOSPITALS]: Hospital[]
 }
 
-function useFetchData<T extends keyof RouteDataMap>(
-  routeType: T
-): {
-  loading: boolean
-  data: { type: T; data: RouteDataMap[T] } | null
-} {
-  const [data, setData] = useState<{ type: T; data: RouteDataMap[T] } | null>(
-    null
-  )
-  const [loading, setLoading] = useState(true)
+async function fetchData<T extends keyof RouteDataMap>(
+  routeType: T,
+  params?: string
+): Promise<RouteDataMap[T]> {
+  const url = params ? `/api/${routeType}/${params}` : `/api/${routeType}`
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error("Network response was not ok")
+  }
+  return response.json() as Promise<RouteDataMap[T]>
+}
 
-  useEffect(() => {
-    const url = `/api/${routeType}`
+function useFetchData<T extends keyof RouteDataMap>(routeType: T) {
+  const result = useQuery<RouteDataMap[T], Error>({
+    queryKey: [routeType],
+    queryFn: () => fetchData(routeType),
+  })
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((responseData) => {
-        // O TypeScript agora pode inferir corretamente que responseData é do tipo RouteDataMap[T]
-        setData({ type: routeType, data: responseData })
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error("Fetch error: ", error)
-        setLoading(false)
-      })
-  }, [routeType])
-
-  return { loading, data }
+  return {
+    loading: result.isLoading,
+    data: result.data ? { type: routeType, data: result.data } : null,
+    error: result.error,
+  }
 }
 
 export default useFetchData

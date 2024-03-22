@@ -8,8 +8,11 @@ import {
   useState,
 } from "react"
 import { useRouter } from "next/navigation"
+import { PathRoutesEnum } from "@/server/pathRoutes"
 import { createClient } from "@/server/supabase/client"
 import { User } from "@supabase/supabase-js"
+
+import useFetchData from "@/hooks/useFetchData"
 
 // Define o tipo do contexto
 interface UserAuthProviderType {
@@ -31,16 +34,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState<User | undefined>(undefined)
   const { auth } = createClient()
   const [isAuthorized, setIsAuthorized] = useState(false)
+  const { data, loading } = useFetchData(PathRoutesEnum.USERS)
   useEffect(() => {
-    fetch("/api/user")
-      .then((res) => res.json())
-      .then((data) => {
-        setIsAuthorized(!!data)
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar informações do usuário:", error)
-      })
-  }, [])
+    if (data) {
+      setIsAuthorized(!!data)
+    }
+  }, [data])
 
   const router = useRouter()
 

@@ -26,47 +26,47 @@ export default function Users() {
 
   return (
     <div className="">
-      <p>Users</p>
+      {/* <p>Users</p>
       {loadingUsers ? (
         <p>Loading...</p>
       ) : (
-        <p>{JSON.stringify(users?.data, null, 2)}</p>
+        <p>{JSON.stringify(users, null, 2)}</p>
       )}
 
       <p>Clinics</p>
       {loadingClinics ? (
         <p>Loading...</p>
       ) : (
-        <p>{JSON.stringify(clinics?.data, null, 2)}</p>
+        <p>{JSON.stringify(clinics, null, 2)}</p>
       )}
 
       <p>Exams Offers</p>
       {loadingExamOffers ? (
         <p>Loading...</p>
       ) : (
-        <p>{JSON.stringify(examsOffers?.data, null, 2)}</p>
+        <p>{JSON.stringify(examsOffers, null, 2)}</p>
       )}
 
       <p>Offers</p>
       {loadingOffers ? (
         <p>Loading...</p>
       ) : (
-        <p>{JSON.stringify(offers?.data, null, 2)}</p>
+        <p>{JSON.stringify(offers, null, 2)}</p>
       )}
 
       <p>Hospitals</p>
       {loadingHospitals ? (
         <p>Loading...</p>
       ) : (
-        <p>{JSON.stringify(hospitals?.data, null, 2)}</p>
+        <p>{JSON.stringify(hospitals, null, 2)}</p>
       )}
 
       <p>Exams</p>
       {loadingExams ? (
         <p>Loading...</p>
       ) : (
-        <p>{JSON.stringify(exams?.data, null, 2)}</p>
-      )}
+        <p>{JSON.stringify(exams, null, 2)}</p>
+      )} */}
     </div>
   )
 }

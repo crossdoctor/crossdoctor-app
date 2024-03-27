@@ -38,7 +38,7 @@ function useFetchData<T extends keyof RouteDataMap>(routeType: T) {
 
   return {
     loading: result.isLoading,
-    data: result.data ? { type: routeType, data: result.data } : null,
+    data: result.data ? result.data : null,
     error: result.error,
   }
 }

@@ -20,6 +20,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         clinicSchema.validate(clinic, { strict: true, abortEarly: false })
       )
     )
+
     return NextResponse.json(validatedClinics)
   } catch (error) {
     console.error(error)

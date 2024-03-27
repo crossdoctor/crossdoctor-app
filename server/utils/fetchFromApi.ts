@@ -54,7 +54,7 @@ export async function fetchFromAPI<T>({
       // Axios does not directly support the 'cache' option like fetch, but you can configure cache behavior on a per-request basis using interceptors or external libraries
     })
     console.log(data)
-    return data
+    return data.items
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Fetch error:", error.message)

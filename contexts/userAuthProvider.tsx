@@ -1,5 +1,9 @@
 "use client"
 
+import { PathRoutesEnum } from "@/server/pathRoutes"
+import { createClient } from "@/server/supabase/client"
+import { User } from "@supabase/supabase-js"
+import { useRouter } from "next/navigation"
 import {
   createContext,
   ReactNode,
@@ -7,10 +11,6 @@ import {
   useEffect,
   useState,
 } from "react"
-import { useRouter } from "next/navigation"
-import { PathRoutesEnum } from "@/server/pathRoutes"
-import { createClient } from "@/server/supabase/client"
-import { User } from "@supabase/supabase-js"
 
 import useFetchData from "@/hooks/useFetchData"
 
@@ -56,11 +56,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUserData(session.data.session?.user)
       setIsLoggedIn(hasSession)
       setIsLoading(false)
-      if (!hasSession) {
-        router.push("/")
-      } else {
-        router.push("/dashboard")
-      }
+      // if (!hasSession) {
+      //   router.push("/")
+      // } else {
+      //   router.push("/dashboard")
+      // }
     })
   }, [auth, router])
 

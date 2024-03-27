@@ -23,7 +23,7 @@ export default async function AuthButton() {
     <div className="flex items-center gap-4">
       Hey, {user.email}!
       <form action={signOut}>
-        <Button>Logout</Button>
+        <Button className="hover:scale-105 hover:text-white hover:bg-teal-500 transition-all duration-500">Logout</Button>
       </form>
     </div>
   ) : (

@@ -22,38 +22,32 @@ const tableHeaderCell: { title: string }[] = [
     title: "Name",
   },
   {
-    title: "Street,number",
-  },
-  {
-    title: "City",
-  },
-  {
-    title: "State",
+    title: "Email",
   },
   {
     title: "Phone",
   },
   {
-    title: "Status",
-  },
-  {
-    title: "Medicos",
+    title: "Password",
   },
   {
     title: "Ofertas",
   },
+  {
+    title: "Status",
+  },
 ]
 
-const ClinicsTable = () => {
+const MedicsTable = () => {
   const [filtrado, setFiltrado] = useState("")
-  const { data: clinics, loading: loadingClinics } = useFetchData(
-    PathRoutesEnum.CLINICS
+  const { data: users, loading: loadingUsers } = useFetchData(
+    PathRoutesEnum.USERS
   )
 
   const router = useRouter()
 
-  const dataFiltered = clinics?.filter((clinic) =>
-    clinic.name.toLowerCase().includes(filtrado.toLowerCase())
+  const dataFiltered = users?.filter((users) =>
+    users.email.toLowerCase().includes(filtrado.toLowerCase())
   )
 
   return (
@@ -64,10 +58,9 @@ const ClinicsTable = () => {
             name="name"
             value={filtrado}
             onChange={(e) => setFiltrado(e.target.value)}
-            placeholder="Nome da clinica"
+            placeholder="Nome do médico"
             className="w-auto"
           />
-          <Input name="medic" placeholder="Nome do medico" className="w-auto" />
           <Button type="button" variant="link">
             <Search className="w-4 h-4 mr-2" />
             Filtrar resultados
@@ -76,10 +69,10 @@ const ClinicsTable = () => {
         <Button
           className="hover:scale-105 hover:text-white hover:bg-teal-500 transition-all duration-500"
           type="button"
-          onClick={() => router.push("/dashboard/registration/clinic-register")}
+          onClick={() => router.push("/dashboard/registration/medic-register")}
         >
           <PlusCircle className="w-4 h-4 mr-2" />
-          Nova Clínica
+          Novo Médico
         </Button>
       </div>
       <div className="border rounded-lg p-2">
@@ -92,20 +85,16 @@ const ClinicsTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {dataFiltered?.map((clinic, i) => (
+            {dataFiltered?.map((users, i) => (
               <TableRow key={i}>
-                <TableCell>{clinic.name}</TableCell>
-                <TableCell>
-                  {clinic.street},{clinic.number}-{clinic.district}
-                </TableCell>
-                <TableCell>{clinic.city}</TableCell>
-                <TableCell>{clinic.state}</TableCell>
-                <TableCell>{clinic.phone}</TableCell>
-                <TableCell>
-                  {clinic.active === true ? "Ativo" : "Inativo"}
-                </TableCell>
-                <TableCell>DR. ABREU</TableCell>
+                {/* <TableCell>{users.name}</TableCell> O "USERS" nao tem a props name, phone ou password, entao deixei comentado para que a gente verifique depois como fazer */}
+                <TableCell>{users.email}</TableCell>
+                {/* <TableCell>{users.phone}</TableCell>
+              <TableCell>{users.password}</TableCell> */}
                 <TableCell>Ofertas</TableCell>
+                <TableCell>
+                  {users.active === true ? "Ativo" : "Inativo"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -115,4 +104,4 @@ const ClinicsTable = () => {
   )
 }
 
-export default ClinicsTable
+export default MedicsTable

@@ -21,10 +21,6 @@ export const siteConfig = {
       title: "User view",
       href: "/dashboard",
     },
-    {
-      title: "Registro",
-      href: "/dashboard/registration",
-    },
   ],
   links: {
     twitter: "https://twitter.com/shadcn",

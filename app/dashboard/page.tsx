@@ -1,39 +1,32 @@
 "use client"
 
-import { Suspense } from "react"
-import { useAuth } from "@/contexts/userAuthProvider"
+import { useRouter } from "next/navigation"
+import { CirclePlus, CirclePlusIcon } from "lucide-react"
 
+import { SiteRoutes } from "@/config/site"
 import InnerStickyHeader from "@/components/ui/innerStickyHeader"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import RegisterButton from "@/components/registration/registerButton"
 
 export default function Home() {
-  const { userData, isAuthorized, isLoading, isLoggedIn } = useAuth()
+  const router = useRouter()
   return (
     <main className="relative w-full">
-      <InnerStickyHeader title="Dashboard" description="Dashboard" />
-      <div className="relative">
-        <ScrollArea>
-          <div className="flex flex-col space-x-4 px-4 pb-4">
-            <Suspense fallback={<div>Loading...</div>}>
-              {userData && JSON.stringify(userData, null, 2)}
-            </Suspense>
-            <p className="">Dashboard</p>
-            <p className="">
-              {" "}
-              {isAuthorized ? "Authorized" : "Not Authorized"}
-            </p>
-            <p className="">
-              {" "}
-              {isLoading
-                ? "Loading"
-                : isLoggedIn
-                  ? "Logged In"
-                  : "Not Logged In"}
-            </p>
-            <p className=""></p>
-          </div>
-          <ScrollBar orientation="vertical" />
-        </ScrollArea>
+      <InnerStickyHeader
+        title="Dashboard"
+        description="Painel inicial"
+      />
+      <div className="flex  flex-wrap px-6 pb-4 pt-2 gap-4">
+        <RegisterButton
+          icon={CirclePlus}
+          title="Cadastrar Nova Demanda"
+          description="Cadastrar Nova Demanda"
+        />
+        <RegisterButton
+          icon={CirclePlusIcon}
+          title="Cadastrar Nova Oferta"
+          description="Cadastrar Nova Oferta"
+          onClick={() => router.push(SiteRoutes.REGISTRATION_CLINIC)}
+        />
       </div>
     </main>
   )

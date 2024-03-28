@@ -1,4 +1,5 @@
 import InnerStickyHeader from "@/components/ui/innerStickyHeader"
+import OfferTable from "@/components/contracts/offer-contracts/offerTable"
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
         description="Ofertas de Contrato"
       />
 
-      <div className="flex space-x-4 px-4 pb-4">Ofertas de Contrato</div>
+      <OfferTable />
     </main>
   )
 }
